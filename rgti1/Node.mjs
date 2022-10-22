@@ -9,11 +9,20 @@ export class Node {
     }
 
     get forwardTransform() {
-        // TODO: implement
+        let m1 = (Matrix.multiply(Matrix.rotationX(this.rotation[0]), Matrix.scale(this.scale[0]), this.scale[1], this.scale[2]));
+        let m2 = Matrix.multiply(Matrix.rotationY(this.rotation[1]), m1);
+        let m3 = Matrix.multiply(Matrix.rotationZ(this.rotation[2]), m2);
+        let m4 = Matrix.multiply(Matrix.translation(this.translation[0], this.translation[1], this.translation[2]), m3);
+
+        return m4;
     }
 
     get inverseTransform() {
-        // TODO: implement
-    }
+        let m1 = Matrix.multiply(Matrix.rotationZ(-this.rotation[2]), Matrix.translation(-this.translation[0], -this.translation[1], -this.translation[2]));
+        let m2 = Matrix.multiply(Matrix.rotationY(-this.rotation[1]), m1);
+        let m3 = Matrix.multiply(Matrix.rotationX(-this.rotation[0]), m2);
+        let m4 = Matrix.multiply(Matrix.scale(-this.scale[0], -this.scale[1], -this.scale[2]), m3);
 
+        return m4;
+    }
 }

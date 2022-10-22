@@ -14,8 +14,15 @@ export function multiply(a, b) {
 }
 
 export function transform(a, v) {
-
-    // TODO: implement
+    let res = [];
+    console.log(a, v)
+    for (let i = 0; i < a.length; i++) {
+        for (let j = 0; j < v.length; j++) {
+            //console.log(a[i][j] * v[j]);
+            res[i] += a[i][j] * v[j];
+        }
+    }
+    return res;
 }
 
 export function identity() {
@@ -71,8 +78,16 @@ export function rotationZ(angle) {
 
 export function perspective(d) {
     // TODO: implement
+    return [[1,0,0,  0],
+            [0,1,0,  0],
+            [0,0,1,  0],
+            [0,0,1/d,0]]
 }
 
+// [-1, -1] x [1, 1] -> [x, y] x [x+h, y+w]
 export function viewport(x, y, w, h) {
-    // TODO: implement
+    // scale x216
+    // transform to (0, 0)
+    return multiply(transform(w/2, -h/2, 0), scale(w/2, h/2, 1))
+
 }
