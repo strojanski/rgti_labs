@@ -25,8 +25,6 @@ input.addEventListener('change', e => {
 
     model.vertices = [...scene.vertices];
     model.indices = [...scene.indices];
-    camera.inverseTransform;
-    model.forwardTransform;
-    
+
     renderer.render(camera, model);
 });

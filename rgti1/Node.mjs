@@ -8,10 +8,10 @@ export class Node {
     }
 
     get forwardTransform() {
-        let m1 = (Matrix.multiply(Matrix.rotationX(this.rotation[0]), Matrix.scale(this.scale[0], this.scale[1], this.scale[2])));
-        let m2 = Matrix.multiply(Matrix.rotationY(this.rotation[1]), m1);
-        let m3 = Matrix.multiply(Matrix.rotationZ(this.rotation[2]), m2);
-        let m4 = Matrix.multiply(Matrix.translation(this.translation[0], this.translation[1], this.translation[2]), m3);
+        const m1 = (Matrix.multiply(Matrix.rotationX(this.rotation[0]), Matrix.scale(this.scale[0], this.scale[1], this.scale[2])));
+        const m2 = Matrix.multiply(Matrix.rotationY(this.rotation[1]), m1);
+        const m3 = Matrix.multiply(Matrix.rotationZ(this.rotation[2]), m2);
+        const m4 = Matrix.multiply(Matrix.translation(this.translation[0], this.translation[1], this.translation[2]), m3);
 
         return m4;
     }
@@ -24,9 +24,9 @@ export class Node {
         const iRz = Matrix.rotationZ(-1 * this.rotation[2])
         const Si = Matrix.scale(1/this.scale[0], 1/this.scale[1], 1/this.scale[2]);
 
-        const m1 = Matrix.multiply(iRx, iT);
+        const m1 = Matrix.multiply(iRz, iT);
         const m2 = Matrix.multiply(iRy, m1);
-        const m3 = Matrix.multiply(iRz, m2);
+        const m3 = Matrix.multiply(iRx, m2);
         const m4 = Matrix.multiply(Si, m3);
 
         return m4;

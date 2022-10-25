@@ -13,37 +13,34 @@ export class Renderer {
         
         let vertices = [];
         const m1 = Matrix.multiply(camera.inverseTransform, model.forwardTransform);
-        //console.log("m1", m1);
         const m2 = Matrix.multiply(Matrix.perspective(camera.perspective), m1);
-        //console.log("m2", m2);
-        //console.log("m3", m1);
-
+        const m3 = Matrix.multiply(Matrix.viewport(0,0,width,height), m2);
+            
         // Get all vertices and draw    - TRS <- TRzRyRxS
-        for (let i = 0; i < model.indices.length; i++) {
-            let ix = model.indices[i];
-            const m = model.vertices;
-            const vertex = [m[ix], m[ix+1], m[ix+2], 1]     
-           
-            const m4 = Matrix.transform(m2, vertex);
-            //console.log("m4", m4);
+        for (let i = 0; i < model.vertices.length; i+=3) {
+            const vxs = model.vertices;
 
+            // Get vertex coordinates
+            const vertex = [vxs[i], vxs[i+1], vxs[i+2], 1]     
+            
+            // Transform
+            const m4 = Matrix.transform(m3, vertex);
+
+            // Normalize
+            for (let i in m4) {
+                m4[i] *= camera.perspective / m4[2] ;
+            }
+            
             for (let i in m4) {
                 m4[i] = Math.abs(m4[i]);
             }
-            const m3 = Matrix.transform(Matrix.viewport(0,0,512,512), m4);
-            
-            
-            vertices.push(m3);
+            vertices.push(m4);
         }
 
-        for (let i = 0; i < vertices.length-2; i++) {
-            for (let j = i; j < vertices.length-1; j++) {
-                for (let k = j; k < vertices.length; k++) {
-                    this.drawTriangle(vertices[i], vertices[j], vertices[k])
-                }
-            }
+        for (let i = 0; i < model.indices.length; i+=3) {
+            //console.log(vertices[ix], vertices[ix+1], vertices[ix+2])
+            this.drawTriangle(vertices[model.indices[i]], vertices[model.indices[i+1]], vertices[model.indices[i+2]])
         }
-
     }
 
     drawTriangle(v0, v1, v2) {
