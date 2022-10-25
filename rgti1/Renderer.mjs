@@ -10,19 +10,36 @@ export class Renderer {
     render(camera, model) {
         const { width, height } = this.context.canvas;
         this.context.clearRect(0, 0, width, height);
-        console.log(model)
+        
+        let vertices = [];
+        const m1 = Matrix.multiply(camera.inverseTransform, model.forwardTransform);
+        //console.log("m1", m1);
+        const m2 = Matrix.multiply(Matrix.perspective(camera.perspective), m1);
+        //console.log("m2", m2);
+        //console.log("m3", m1);
 
+        // Get all vertices and draw    - TRS <- TRzRyRxS
+        for (let i = 0; i < model.indices.length; i++) {
+            let ix = model.indices[i];
+            const m = model.vertices;
+            const vertex = [m[ix], m[ix+1], m[ix+2], 1]     
+           
+            const m4 = Matrix.transform(m2, vertex);
+            //console.log("m4", m4);
 
-        // Get all pairs of vertices and draw
-        for (let i = 0; i < model.vertices.length/3-2; i+=2) {
-            for (let j = i+2; j < model.vertices.length/3-1; j+=2) {
-                for (let k = j+2; k < model.vertices.length/3; k+=2) {
-                    const m = model.vertices;
-                    const v0 = [m[i], m[i+1]]
-                    const v1 = [m[j], m[j+1]];
-                    const v2 = [m[k], m[k+1]];
-                    console.log(i, j, k);
-                    this.drawTriangle(v0, v1, v2);
+            for (let i in m4) {
+                m4[i] = Math.abs(m4[i]);
+            }
+            const m3 = Matrix.transform(Matrix.viewport(0,0,512,512), m4);
+            
+            
+            vertices.push(m3);
+        }
+
+        for (let i = 0; i < vertices.length-2; i++) {
+            for (let j = i; j < vertices.length-1; j++) {
+                for (let k = j; k < vertices.length; k++) {
+                    this.drawTriangle(vertices[i], vertices[j], vertices[k])
                 }
             }
         }
@@ -30,7 +47,7 @@ export class Renderer {
     }
 
     drawTriangle(v0, v1, v2) {
-        console.log("Drawing triangle from", v0, " to", v1, "to", v2);
+        //console.log("Drawing triangle from", v0, " to", v1, "to", v2);
         this.context.beginPath();
         this.context.moveTo(...v0);
         this.context.lineTo(...v1);
