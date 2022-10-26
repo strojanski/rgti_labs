@@ -5,6 +5,13 @@ const input = document.querySelector('textarea');
 const canvas = document.querySelector('canvas');
 const renderer = new Renderer(canvas.getContext('2d'));
 
+const rotX = document.getElementById("rotationX")
+const rotY = document.getElementById("rotationY")
+const translateX = document.getElementById("translationX");
+const translateY = document.getElementById("translationY");
+const scaleX = document.getElementById("scaleX");
+const scaleY = document.getElementById("scaleY");
+
 const camera = new Node();
 camera.perspective = 1;
 
@@ -26,5 +33,52 @@ input.addEventListener('change', e => {
     model.vertices = [...scene.vertices];
     model.indices = [...scene.indices];
 
+    rotX.value = model.rotation[0];
+    rotY.value = model.rotation[1];
+    translateX.value = model.translation[0]
+    translateY.value = model.translation[1]
+    scaleX.value = model.scale[0];
+    scaleY.value = model.scale[1];
+
     renderer.render(camera, model);
 });
+
+rotX.addEventListener("change", (e) => {
+    updateModel();
+    renderer.render(camera, model);
+});
+
+rotY.addEventListener("change", (e) => {
+    updateModel();
+    renderer.render(camera, model);
+});
+
+translateX.addEventListener("change", (e) => {
+    updateModel();
+    renderer.render(camera, model);
+});
+
+translateY.addEventListener("change", (e) => {
+    updateModel();
+    renderer.render(camera, model);
+});
+
+scaleX.addEventListener("change", (e) => {
+    updateModel();
+    renderer.render(camera, model);
+});
+
+scaleY.addEventListener("change", (e) => {
+    updateModel();
+    renderer.render(camera, model);
+});
+
+function updateModel() {
+    model.rotation[0] = rotX.value;
+    model.rotation[1] = rotY.value;
+    model.translation[0] = translateX.value;
+    model.translation[1] = translateY.value;
+    model.scale[0] = scaleX.value;
+    model.scale[1] = scaleY.value;
+}
+
