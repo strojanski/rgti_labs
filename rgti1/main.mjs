@@ -33,12 +33,12 @@ input.addEventListener('change', e => {
     model.vertices = [...scene.vertices];
     model.indices = [...scene.indices];
 
-    rotX.value = model.rotation[0];
-    rotY.value = model.rotation[1];
-    translateX.value = model.translation[0]
-    translateY.value = model.translation[1]
-    scaleX.value = model.scale[0];
-    scaleY.value = model.scale[1];
+    rotX.value = model.rotation[0] * 10;
+    rotY.value = model.rotation[1] * 10;
+    translateX.value = model.translation[0] * 10;
+    translateY.value = model.translation[1] * 10;
+    scaleX.value = model.scale[0] * 10;
+    scaleY.value = model.scale[1] * 10;
 
     renderer.render(camera, model);
 });
@@ -74,11 +74,11 @@ scaleY.addEventListener("change", (e) => {
 });
 
 function updateModel() {
-    model.rotation[0] = rotX.value;
-    model.rotation[1] = rotY.value;
-    model.translation[0] = translateX.value;
-    model.translation[1] = translateY.value;
-    model.scale[0] = scaleX.value;
-    model.scale[1] = scaleY.value;
+    model.rotation[0] = rotX.value/10;
+    model.rotation[1] = rotY.value/10;
+    model.translation[0] = translateX.value/10;
+    model.translation[1] = translateY.value/10;
+    model.scale[0] = scaleX.value/10;
+    model.scale[1] = scaleY.value/10;
 }
 

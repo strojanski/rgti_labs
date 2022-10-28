@@ -31,9 +31,6 @@ export class Renderer {
                 m4[i] *= camera.perspective / m4[2] ;
             }
             
-            for (let i in m4) {
-                m4[i] = Math.abs(m4[i]);
-            }
             vertices.push(m4);
         }
 
