@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Domača naloga RGTI1</title>
+</head>
+<body>
+    <style>
+        textarea {
+            display: block;
+            box-sizing: border-box;
+            width: 512px;
+            height: 300px;
+        }
+    </style>
+    <canvas width="512" height="512"></canvas>
+    <div class="slidecontainer" style="width: 512px;">
+        <!--X AXIS-->
+        <span class="display: inline">Rotation X<input type="range" min="0" max="360" class="slider rx" id="rotationX" style="width: 399px; margin-left: 35px;"></span>
+        <span class="display: inline">Translation X<input type="range" min="-3" max="3" class="slider tx" id="translationX" style="width: 399px; margin-left: 35px;"></span>
+        <span class="display: inline">Scale X<input type="range" min="0" max="50" value="1" class="slider rx" id="scaleX" style="width: 399px; margin-left: 35px;"></span>
+        
+        <!--Y AXIS-->
+        <span style="position: absolute; top: 256px; left: 592px; transform: rotate(270deg);">Rotation Y</span>
+        <input type="range" min="0" max="360" value="50" class="slider ry" id="rotationY" style="width: 358px; position: absolute; top: 256px; left: 412px; transform: rotate(270deg);">
+        <span style="position: absolute; top: 256px; left: 630px; transform: rotate(270deg);">Translation Y</span>
+        <input type="range" min="-3" max="3" class="slider ry" id="translationY" style="width: 358px; position: absolute; top: 256px; left: 472px; transform: rotate(270deg);">
+        <span style="position: absolute; top: 256px; left: 712px; transform: rotate(270deg);">Scale Y</span>
+        <input type="range" min="0" max="5"class="slider ry" id="scaleY" style="width: 358px; position: absolute; top: 256px; left: 532px; transform: rotate(270deg);">
+    </div>
+    <textarea placeholder="JSON input"></textarea>
+    <script type="module" src="main.mjs"></script>
+</body>
+</html>
