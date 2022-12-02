@@ -85,7 +85,6 @@ export function perspective(d) {
 
 // [-1, -1] x [1, 1] -> [x, y] x [x+h, y+w]
 export function viewport(x, y, w, h) {
-    // scale x216
     // transform to (0, 0)
     return multiply(translation(w/2, h/2, 0), scale(w/2, -1*h/2, 1))
 

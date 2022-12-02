@@ -33,6 +33,9 @@ input.addEventListener('change', e => {
     model.vertices = [...scene.vertices];
     model.indices = [...scene.indices];
 
+    model.lights = [...scene.lights];
+    model.normals = [...scene.normals]
+
     rotX.value = model.rotation[0] * 10;
     rotY.value = model.rotation[1] * 10;
     translateX.value = model.translation[0] * 10;
