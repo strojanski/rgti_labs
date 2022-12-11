@@ -16,7 +16,6 @@ export function multiply(a, b) {
 
 export function transform(a, v) {
     let res = [0, 0, 0, 0];
-    console.log(a, v)
     for (let i = 0; i < a.length; i++) {
         for (let j = 0; j < v.length; j++) {
             res[i] += a[i][j] * v[j];
