@@ -33,8 +33,8 @@ input.addEventListener('change', e => {
     model.vertices = [...scene.vertices];
     model.indices = [...scene.indices];
 
-    model.lights = [scene.lights];
-    model.normals = [scene.normals]
+    model.lights = [...scene.lights];
+    model.normals = [...scene.normals]
 
     model.material = [scene.material]
 

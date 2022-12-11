@@ -19,13 +19,14 @@ export class Renderer {
         // Get all vertices and draw    - TRS <- TRzRyRxS
         for (let i = 0; i < model.vertices.length; i+=3) {
             const vxs = model.vertices;
-            const nxs = model.normals[0];
+            const nxs = model.normals;
 
             // Get vertex coordinates
             const vertex = [vxs[i], vxs[i+1], vxs[i+2], 1]  
             const normal = [nxs[i], nxs[i+1], nxs[i+2], 1] 
-            const light = this.addPhong(camera, model, vertex, normal)  
-            console.log("light", light)
+            const color = this.phong(vertex, normal, model.lights, model.material[0])
+            console.log("color", color)
+
             // Transform
             const m4 = Matrix.transform(m3, vertex);
 
@@ -39,19 +40,15 @@ export class Renderer {
 
         for (let i = 0; i < model.indices.length; i+=3) {
             //console.log(vertices[ix], vertices[ix+1], vertices[ix+2])
+            //console.log("Drawing", vertices[model.indices[i]], vertices[model.indices[i+1]], vertices[model.indices[i+2]])
             this.drawTriangle(vertices[model.indices[i]], vertices[model.indices[i+1]], vertices[model.indices[i+2]])
         }
     }
 
-    addPhong(camera, model, vertex, normal) {
-        const light = this.phong(vertex, normal, model.lights, model.material[0])
-        return light;
-    } 
-
     phong(vertex, normal, lights, material) {
         let res = [0,0,0]
-        for (const l in lights[0]) {
-            const light = lights[0][l];
+        for (const l in lights) {
+            const light = lights[l];
             const li = [light.position[0] - vertex[0], light.position[1] - vertex[1], light.position[2] - vertex[2]]
             const liNormalized = this.normalize(li)
             let li_n = this.dot(liNormalized, normal)
@@ -69,8 +66,11 @@ export class Renderer {
             const lin = li_n
             const riep = this.dot(r, e_norm)**material.shininess
 
-            res = [res[0]+ lin + riep, res[1] + lin + riep, res[2] + lin + riep]
-            res = [res[0] *  light.color[0], res[1] *  light.color[1], res[2] *  light.color[2]]   
+            const mid_res = lin + riep
+            const to_add = this.vectorScalar(mid_res, light.color)
+            for (const i in res) {
+                res[i] += to_add[i]
+            }
         }
         
         return [res[0] *  material.color[0], res[1] *  material.color[1], res[2] *  material.color[2]]  
@@ -99,10 +99,11 @@ export class Renderer {
     }
 
     vectorScalar(scalar, vec3) {
-        vec3[0] *= scalar;
-        vec3[1] *= scalar;
-        vec3[2] *= scalar;
-        return vec3;
+        let res = [0,0,0]
+        for (let i = 0; i < res.length; i++) {
+            res[i] = vec3[i] * scalar;
+        }
+        return res;
     }
 
     normalize(vec3) {

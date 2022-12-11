@@ -36,6 +36,8 @@ export class Renderer {
 
         for (let i = 0; i < model.indices.length; i+=3) {
             //console.log(vertices[ix], vertices[ix+1], vertices[ix+2])
+            console.log("Drawing", vertices[model.indices[i]], vertices[model.indices[i+1]], vertices[model.indices[i+2]])
+
             this.drawTriangle(vertices[model.indices[i]], vertices[model.indices[i+1]], vertices[model.indices[i+2]])
         }
     }
